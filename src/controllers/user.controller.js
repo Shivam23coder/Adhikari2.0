@@ -30,7 +30,7 @@ const registerUser = asyncHandler(async(req,res) =>{
     })
      
     if(existedUser){
-        throw new ApiError(409,"User with email or username already exists");
+        throw new ApiError(409,"User with this email or username already exists");
     }
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
@@ -39,8 +39,9 @@ const registerUser = asyncHandler(async(req,res) =>{
     if(!avatarLocalPath){
         throw new ApiError(400,"Avatar is requird");
     }
-    const avatar = await uploadOnCloudinary(avatarLoacalPath);
-    const coverImage = await uploadOnCloudinary(coveerImageLocalPath);
+
+    const avatar = await uploadOnCloudinary(avatarLocalPath);
+    const coverImage = await uploadOnCloudinary(coverImageLocalPath);
 
     if(!avatar){
         throw new ApiError(500,"Error while uploading images");     //500 is internal server error

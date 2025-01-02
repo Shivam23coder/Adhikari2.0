@@ -14,10 +14,6 @@ const videoSchema = new Schema({
         type: String,
         required: true,
     },
-    title : {
-        type: String,
-        required: true,
-    },
     duration:{
         type:Number,
         required: true
@@ -32,6 +28,7 @@ const videoSchema = new Schema({
     }
 })
 
+//plugin is used to add pagination to the schema
 videoSchema.plugin(mongooseAggregatePaginate);
 
 export const Video = mongoose.model("Video",videoSchema);
