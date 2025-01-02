@@ -2,17 +2,18 @@ import {asyncHandler} from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js";
 import {User} from "../models/user.models.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
+import {ApiResponse} from "../utils/ApiResponse.js";
 
 const registerUser = asyncHandler(async(req,res) =>{
-    //  get user data from request body(frontEnd)
-    //validation not empty
+    // get user data from request body(frontEnd)
+    // validation not empty
     // check if user already exists
     // check for images,avatar
     // upload them on cloudinary
     // create user project - create entry in db
     // remove password from response
     // check  for user creation
-    //return response
+    // return response
 
     const {fullName,email,username,password} = req.body;
     console.log(fullName,email,username,password);
@@ -54,17 +55,19 @@ const registerUser = asyncHandler(async(req,res) =>{
         username: username.toLowerCase()
     })
 
+
     const createdUser = User.findById(user._id).select(
         "-password -refreshToken"
-    )
+    );
+    
 
     if(!createdUser){
         throw new ApiError(500,"Something went wrong while registering user")
     }
 
-    return res.status(201).json({
+    return res.status(201).json(
         new ApiResponse(200, createdUser, "User registered successfully")
-})
+    )
 })
 //Now we will export this function so that we can use it in our routes
 export {registerUser}

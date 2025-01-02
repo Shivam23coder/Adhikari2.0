@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import { trusted } from 'mongoose';
@@ -21,4 +21,4 @@ import userRouter from "./routes/user.routes.js"
 //route declaration
 app.use("/api/v1/user", userRouter)
 
-export default {app}
+export default app;
