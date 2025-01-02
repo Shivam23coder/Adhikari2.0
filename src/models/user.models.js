@@ -48,10 +48,11 @@ const userSchema = new Schema(
     },{timestamp: true}
 )
 
+//pre save hook to hash password before saving user(i.e., on saving user password will be hashed)
 userSchema.pre("save",async function(next) {
     if(!this.modified("password")) return next();
 
-    this.password = bcrypt.hash(this.password,10);
+    this.password = await bcrypt.hash(this.password,10);
     next();
 })
 
