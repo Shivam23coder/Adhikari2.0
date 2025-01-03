@@ -8,7 +8,6 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            lowercase: true,
             trim: true,
             index: true //to make a field searchable make index true(to enable searching field)
         },
@@ -19,7 +18,7 @@ const userSchema = new Schema(
             lowercase: true,
             trim: true,
         },
-        fullname : {
+        fullName : {
             type: String,
             required: true,
             trim: true,
@@ -50,7 +49,7 @@ const userSchema = new Schema(
 
 //pre save hook to hash password before saving user(i.e., on saving user password will be hashed)
 userSchema.pre("save",async function(next) {
-    if(!this.modified("password")) return next();
+    if(!this.isModified("password")) return next();
 
     this.password = await bcrypt.hash(this.password,10);
     next();

@@ -1,6 +1,6 @@
 class ApiError extends Error {
-    constructor(statuscode,
-        messsage = "Something went wrong",
+    constructor(statuscode,//
+        message = "Something went wrong",  //The HTTP status code associated with the error (e.g., 400 for Bad Request, 500 for Internal Server Error)
         data = null,
         stack = "",
         error = []

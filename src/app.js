@@ -10,9 +10,10 @@ app.use(cors({
     credentials: true
 }))
 
+//configurations for express
 app.use(express.json({limit: "16kb"}))
 app.use(express.urlencoded({extended: true}))
-app.use(express.static("public"))
+app.use(express.static("public"))   //to serve static files(eg. images)
 app.use(cookieParser())
 
 //import routes
