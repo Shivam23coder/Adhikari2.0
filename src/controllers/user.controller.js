@@ -315,7 +315,7 @@ const updateCoverImage = asyncHandler(async(req,res) =>{
 
 })
 
-const getUserCurrentProfile = asyncHandler(async(req,res) => {
+const getUserChannelProfile = asyncHandler(async(req,res) => {
     const {username} = req.params
 
     if(!username?.trim())
@@ -439,6 +439,7 @@ const getWatchHistory = asyncHandler(async(req,res) =>{
         )
     )
 })
+
 
 //Now we will export this function so that we can use it in our routes
 export {registerUser,
