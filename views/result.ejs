@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <h1>Registration Successful</h1>
+    <p><strong>Full Name:</strong> <%= formData.name %></p>
+    <p><strong>Username:</strong> <%= formData.username %></p>
+    <p><strong>Email:</strong> <%= formData.email %></p>
+    <p><strong>Password:</strong> (hidden)</p>
+    <p><strong>Avatar:</strong> 
+        <% if (formData.avatar) { %>
+            <img src="/<%= formData.avatar.path %>" alt="Avatar" width="100">
+        <% } else { %>
+            No avatar uploaded.
+        <% } %>
+    </p>
+    <p><strong>Cover Image:</strong> 
+        <% if (formData.coverImage) { %>
+            <img src="/<%= formData.coverImage.path %>" alt="Cover Image" width="200">
+        <% } else { %>
+            No cover image uploaded.
+        <% } %>
+    </p>
+</body>
+</html>

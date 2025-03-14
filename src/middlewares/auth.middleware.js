@@ -5,7 +5,7 @@ import {User} from "../models/user.models.js"
 
 export const verifyJWT = asyncHandler(async(req,res,next) =>{
    try {
-    //req is present in the request object which is coming from the client
+    //cookie is present in the request object which is coming from the client
      const token = req.cookies?.AccessToken || req.header
      ("Authorization")?.replace("Bearer ","")
  

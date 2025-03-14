@@ -1,9 +1,13 @@
 import {asyncHandler} from "../utils/asyncHandler.js";
 import {ApiError} from "../utils/ApiError.js";
+
 import {User} from "../models/user.models.js";
+import {Subscription} from "../models/subscription.models.js" 
+
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import {ApiResponse} from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
+// import { channel } from "diagnostics_channel";
 
 const generateAccessRefreshToken = async(userId) =>{
     try {
@@ -50,6 +54,11 @@ const registerUser = asyncHandler(async(req,res) =>{
         throw new ApiError(409,"User with this email or username already exists");
     }
 
+    //<form action="/upload" method="POST" enctype="multipart/form-data">
+//     <input type="file" name="avatar" multiple>
+//     <button type="submit">Upload</button>
+//   </form>
+
     const avatarLocalPath = req.files?.avatar[0]?.path;
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
@@ -84,9 +93,22 @@ const registerUser = asyncHandler(async(req,res) =>{
         throw new ApiError(500,"Something went wrong while registering user")
     }
 
-    return res.status(201).json(
+    const formData = {
+        fullName,
+        username,
+        email,
+        password,
+        avatar,
+        coverImage
+    };
+
+    
+    res
+    .status(201)
+    .json(
         new ApiResponse(200, createdUser, "User registered successfully")
     )
+    .redirect("/api/v1/user/dashboard");            //how to redirect as well as render a page
 })
 
 const loginUser = asyncHandler(async(req,res) =>{
@@ -101,6 +123,7 @@ const loginUser = asyncHandler(async(req,res) =>{
         throw new ApiError(400,"username or email is required")
     }
 
+    //finds on basis of username or email
     const user = await User.findOne({
         $or: [{username},{email}]
     })
@@ -116,30 +139,37 @@ const loginUser = asyncHandler(async(req,res) =>{
         throw new ApiError(401,"Invalid User Credential(Password)")
     }
 
+    //generating access token
     const {AccessToken,RefreshToken} = await generateAccessRefreshToken(user._id)
 
+    //contains all info of the user except password and refreshToken
     const loggedInUser = await User.findById(user._id).select(
         "-password -refreshToken"
     )
 
-    // it makes cokkie secure and can only be access by server side(http)
+    // it makes cookie secure and can only be access by server side(http)
     const cookieOptions = {
         httpOnly: true,
         secure: true
     }
 
-    return res
+    res
     .status(200)
     .cookie("RefreshToken",RefreshToken,cookieOptions)
     .cookie("AccessToken",AccessToken,cookieOptions)
-    .json(
-        new ApiResponse(200,
-            {
-                user: loggedInUser,AccessToken,RefreshToken
-            },"User logged in successfully")
-    )
+    // .json(
+    //     new ApiResponse(200,
+    //         {
+    //             user: loggedInUser,AccessToken,RefreshToken
+    //         },"User logged in successfully")
+    // )
+    .redirect("/api/v1/user/dashBoard");
+    
+
+    // res.render('dashboard', { message: 'Logged in successfully', user: req.user });
 })
 
+//just clear cookies
 const logoutUser = asyncHandler(async(req,res) =>{
     console.log(req.user.fullName);
     User.findByIdAndUpdate(req.user._id,{
@@ -164,6 +194,198 @@ return res
         new ApiResponse(200,{}, "User logged out successfully")
     )
 })
+
+
+//creating a dashboard for seamless user experience
+const getDashboard = asyncHandler(async (req, res) => {
+    const userId = req.user._id;
+
+    // Fetch user details excluding sensitive information (like password)
+    const user = await User.findById(userId).select("-password -refreshToken");
+
+    if (!user) {
+        throw new ApiError(404, "User not found");
+    }
+
+    // Fetch the user's channel profile, including the number of subscribers and channels subscribed to
+    const channelProfile = await User.aggregate([
+        {
+            $match: {
+                username: user.username.toLowerCase()
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "channel",
+                as: "subscribers"
+            }
+        },
+        {
+            $lookup: {
+                from: "subscriptions",
+                localField: "_id",
+                foreignField: "subscriber",
+                as: "subscribedTo"
+            }
+        },
+        {
+            $addFields: {
+                subscribersCount: {
+                    $size: "$subscribers"
+                },
+                channelsSubscribedToCount: {
+                    $size: "$subscribedTo"
+                },
+                isSubscribed: {
+                    $cond: {
+                        if: { $in: [req.user?._id, "$subscribers.subscriber"] },
+                        then: true,
+                        else: false
+                    }
+                }
+            }
+        },
+        {
+            $project: {
+                fullName: 1,
+                username: 1,
+                subscribersCount: 1,
+                channelsSubscribedToCount: 1,
+                isSubscribed: 1,
+                avatar: 1,
+                coverImage: 1,
+                email: 1
+            }
+        }
+    ]);
+
+    if (!channelProfile?.length) {
+        throw new ApiError(404, "Channel does not exist");
+    }
+
+    // Extract the channel profile data
+    const { subscribersCount, channelsSubscribedToCount, isSubscribed, avatar, coverImage, fullName, username, email } = channelProfile[0];
+
+    // Get the user's subscribed channels (optional, if needed)
+    
+    const subscribedChannels = await Subscription.aggregate([
+        { $match: { subscribers: userId } },
+        { $project: { _id: 1, channelName: 1 } }
+    ]);
+
+    // Get the channels owned by the user (optional)
+    // const userChannels = await Channel.aggregate([
+    //     { $match: { owner: userId } },
+    //     { $lookup: {
+    //         from: 'subscribers',
+    //         localField: '_id',
+    //         foreignField: 'channelId',
+    //         as: 'subscribers'
+    //     }},
+    //     { $project: { _id: 1, channelName: 1, numberOfSubscribers: { $size: "$subscribers" } } }
+    // ]);
+
+    res.render('dashBoard', {
+        user: { fullName, username, email, avatar, coverImage },
+        subscribersCount,
+        channelsSubscribedToCount,
+        isSubscribed,
+        subscribedChannels,
+        // userChannels,
+        title: 'User Dashboard'
+    });
+});
+
+const getSearchedUser = asyncHandler(async(req,res) => {
+
+    const{username} = req.body;
+    if(!(username)) {
+        throw new ApiError(400,"username or email is required")
+    }
+
+    try {
+        const user = await User.findOne({ username: username });
+        if (!user) {
+          console.log("User not found");
+        } 
+        else {
+          console.log("User found:", user);
+
+          res.render('subscribePage',{
+            user: {
+                fullName: user.fullName,
+                username: user.username,
+                email: user.email,
+                avatar: user.avatar,
+                coverImage: user.coverImage,
+                _id: user._id,
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error finding user:", error.message);
+      }
+
+      //After searching a person(user),show it's info
+
+})
+
+// const subUnsubscribe = asyncHandler(async(req,res) => {
+//     // const {fullName,email,username,password} = req.body;
+//     // console.log(fullName,email,username,password);
+
+//     const user = await User.create({
+//         fullName,
+//         avatar: avatar.url,
+//         coverImage: coverImage?.url || "",
+//         email,
+//         password,
+//         username: username.toLowerCase()
+//     })
+
+//     const subscriptionDetails = await Subscription.create({
+//         subscriber,
+//         channel
+//     })
+    
+// })
+
+const subscribeToUser = asyncHandler(async (req, res) => {
+    console.log("Subscribe request received:", req.body); 
+    
+    const { channelId } = req.body; // ID of the user to subscribe to
+    const subscriberId = req.user._id; // ID of the logged-in user
+
+    if (!channelId) {
+        throw new ApiError(400, "Channel ID is required");
+    }
+
+    if (channelId === subscriberId.toString()) {
+        throw new ApiError(400, "You cannot subscribe to yourself");
+    }
+
+    // Check if the subscription already exists
+    const existingSubscription = await Subscription.findOne({
+        channel: channelId,
+        subscriber: subscriberId,
+    });
+
+    if (existingSubscription) {
+        throw new ApiError(400, "You are already subscribed to this channel");
+    }
+
+    // Create the subscription
+    const newSubscription = await Subscription.create({
+        channel: channelId,
+        subscriber: subscriberId,
+    });
+
+    return res.status(201).json(
+        new ApiResponse(201, newSubscription, "Subscription created successfully")
+    );
+});
 
 const refreshAccessToken = asyncHandler(async(req,res) =>{
     const incomingRefreshToken = req.cookies.refreshToken ||
@@ -228,7 +450,7 @@ const changeCurrentPassword = asyncHandler(async(req,res) =>{
 
     return res
     .status(200)
-    .json(new ApiResponse(200,{},"Password changed successfully"))
+    .json(new ApiResponse(200,{},"Password changed successfully.Please go to the home page for again login"))
 })
 
 //getting current user
@@ -239,16 +461,18 @@ const getCurrentUser = asyncHandler(async(req,res) => {
 })
 
 const updateAccountDetails = asyncHandler(async(req,res) =>{
-    const {fullName,email} = req.body
-    if(!(fullName || email)) 
+    const {fullName,email,username} = req.body
+    if(!(fullName || email || username)) 
         throw new ApiError(400,"All fields are required")
 
-    const user = User.findByIdAndUpdate(
+    //getting the current user's info
+    const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set:{
-                fullName,
-                email: email
+                fullName : fullName,
+                email: email,
+                username: username
             }
         },
         {new: true}
@@ -289,7 +513,7 @@ const updateAvatar = asyncHandler(async(req,res) => {
 })
 
 const updateCoverImage = asyncHandler(async(req,res) =>{
-    const coverImageLocalPath = await req.body.path
+    const coverImageLocalPath = await req.body.path     //for getting the path if image
 
     //if does not recieve correct path
     if(!coverImageLocalPath)
@@ -315,12 +539,18 @@ const updateCoverImage = asyncHandler(async(req,res) =>{
 
 })
 
+
+//this gets number of subscribers and the channels to which user has subscribed
+
 const getUserChannelProfile = asyncHandler(async(req,res) => {
+    //first I get username from the client(frontend) by req.params
     const {username} = req.params
 
+    //if no string is present
     if(!username?.trim())
         throw new ApiError(400,"username is missing")
 
+    //aggregation pipeline for making changes
     const channel = await User.aggregate([
         {
             $match: {
@@ -336,6 +566,9 @@ const getUserChannelProfile = asyncHandler(async(req,res) => {
             }
         },
         {
+            //it helps in retrieving all subscriptions associated with each user
+            //  by joining their 'id' with subscriber field
+            
             $lookup: {
                 from: "subscriptions",
                 localField: "_id",
@@ -451,6 +684,9 @@ export {registerUser,
     updateAccountDetails,
     updateAvatar,
     updateCoverImage,
-    getUserCurrentProfile,
-    getWatchHistory
+    getUserChannelProfile,
+    getSearchedUser,
+    getWatchHistory,
+    getDashboard,
+    subscribeToUser
 };

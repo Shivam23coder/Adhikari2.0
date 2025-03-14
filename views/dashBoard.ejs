@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link rel="stylesheet" href="/css/dashboard.css"> <!-- Include your CSS file -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">   
+
+</head>
+<body>
+        <header class="dhone">
+            <div class="cont1">
+                <div class="box1"></div>
+                <div class="box2"></div>
+                <div class="user-details">
+                    <h1  class="usern">Welcome, <%= user.fullName %></h1>
+                    <p>Email: <%= user.email %></p>
+                    <p>Username: <%= user.username %></p>
+                </div>
+                <div class="menu">
+                    <p>My Blogs</p>
+                    <p>Chats</p>
+                    <p>Trending</p>
+                </div>
+                <div class="user-details">
+                    <a href="/api/v1/user/updateAccount" >Account</a>
+                    <a href="/api/v1/user/changePassword">Change Password</a>
+                    <a href="/api/v1/user/logout">Logout</a>
+                </div>
+            </div>
+
+            <div class="cont2">
+                <div>
+                    <div class="box"><h1>DASHBOARD</h1></div>
+                    <div class="box2"></div>
+                </div>
+                <div class="search">
+                    <label for="usernameInput">Username:</label>
+                <input type="text" id="usernameInput" name="username" placeholder="Search with username"><br><br>
+                <button type="button" id="searchButton">Search</button>
+
+                </div>
+
+                <div class="number">
+                    <div class="c1">
+                        <div><p>Number of Active Days</p>
+                        <h2>Fetch from Database</h2></div>
+                    </div>
+                    <div class="c2">
+                        <div><p>Number of blogs written</p>
+                        <h2>Fetch from Database</h2></div>
+                    </div>
+                </div>
+                
+                <h2>Your Channel Profile</h2>
+                <div class="user-channel-profile">
+                    <div class="ucp1">
+                        <p>Subscribers: <%= subscribersCount %></p>
+                    </div>
+                    <div class="ucp1">
+                        <p >Channels Subscribed To: <%= channelsSubscribedToCount %></p>
+                    </div>
+                    <!-- <p >Subscribed to this channel: <%= isSubscribed ? 'Yes' : 'No' %></p> -->
+                     <div class="ucp1">
+                         <p>New Readers this week:</p>
+                     </div>
+                </div>
+            </div>
+            <!-- <p >Avatar: <img src="<%= user.avatar %>" alt="User Avatar" ></p>
+            <p>Cover Image: <img src="<%= user.coverImage %>" alt="User Cover" ></p> -->
+        </header>
+
+    <footer>
+        <p>&copy; 2025 My Blog App</p>
+    </footer>
+    
+</body>
+
+<script>
+    document.getElementById("searchButton").addEventListener("click", () => {
+        const username = document.getElementById("usernameInput").value.trim(); // Get the username from input
+    
+        if (!username) {
+            alert("Please enter a username to search");
+            return;
+        }
+    
+        fetch(`/api/v1/user/subscribe`, { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username })      
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => { throw new Error(err.error || "Error fetching user data"); });
+            }
+            return response.text(); // Expecting HTML content (EJS rendered page)
+        })
+        .then(html => {
+            document.open(); // Clear the current document
+            document.write(html); // Replace it with the rendered HTML
+            document.close();
+        })
+        .catch(error => console.error('Error:', error));
+    });    
+</script>
+</html>
