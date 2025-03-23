@@ -13,6 +13,7 @@
 
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <header class="dhone">
             <div class="cont1">
                 <div class="box1"></div>
@@ -23,8 +24,11 @@
                     <p>Username: <%= user.username %></p>
                 </div>
                 <div class="menu">
-                    <p>My Blogs</p>
-                    <p>Chats</p>
+                    <button onclick="window.location.href='/api/v1/user/blog/my-blogs'">My Blog</button>
+                    <button onclick="window.location.href='/api/v1/user/blog/add-blog'">Add Blog</button>
+                    <!-- <a href="/api/v1/blog/my-blogs">My Blog</a> -->
+                    <!-- <a href="/api/v1/blog/add-new">Add Blog</a> -->
+                    <!-- <p>Chats</p> -->
                     <p>Trending</p>
                 </div>
                 <div class="user-details">
@@ -45,15 +49,14 @@
                 <button type="button" id="searchButton">Search</button>
 
                 </div>
-
+                <!-- TO be worked ON -->
                 <div class="number">
-                    <div class="c1">
-                        <div><p>Number of Active Days</p>
-                        <h2>Fetch from Database</h2></div>
+                    <div  class="chart-container c1" style="max-width: 800px; margin: 20px auto;">
+                        <canvas id="blogHistoryChart"></canvas>
                     </div>
                     <div class="c2">
-                        <div><p>Number of blogs written</p>
-                        <h2>Fetch from Database</h2></div>
+                        <div><p>Number of blogs written:</p>
+                        <h2><%= blogCount %></h2></div>
                     </div>
                 </div>
                 
@@ -78,7 +81,65 @@
     <footer>
         <p>&copy; 2025 My Blog App</p>
     </footer>
-    
+    <script>
+        const blogData = JSON.parse('<%- blogHistogramData %>');
+        
+        const ctx = document.getElementById('blogHistoryChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: blogData.map(item => item.label),
+                datasets: [{
+                    label: 'Blogs Written',
+                    data: blogData.map(item => item.count),
+                    backgroundColor: 'rgba(63, 81, 181, 0.7)',
+                    borderColor: 'rgba(63, 81, 181, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1,
+                            color: '#000000'
+                        },
+                        title: {
+                            display: true,
+                            color: '#000000',
+                            text: 'Number of Blogs'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            precision: 0,
+                            stepSize: 1,
+                            color: '#000000'
+                        },
+                        title: {
+                            display: true,
+                            color: '#000000',
+                            text: 'Month'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => context[0].label,
+                            label: (context) => `${context.parsed.y} blog${context.parsed.y !== 1 ? 's' : ''}`
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 
 <script>
@@ -110,5 +171,6 @@
         })
         .catch(error => console.error('Error:', error));
     });    
+
 </script>
 </html>

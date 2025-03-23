@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="./styles/register.css">
+    <link rel="stylesheet" href="/css/navstyles.css">
     <!-- //Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">   
 </head>
-<body class="rbody">
+<body class="rbody" style="background-color: #c6e0facb;">
     <div class="rdiv">
         <h1 class="rhead">Welcome,<span class="auto-type"></span></h1>
         <form action="/api/v1/user/register" method="POST" class="rform" enctype="multipart/form-data">
             <!-- Name -->
             <label for="fullName">Full Name:</label>
             <input type="text" id="name" name="fullName" required><br><br>
-    
+            
             <!-- Username -->
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required><br><br>
@@ -25,7 +26,7 @@
             <!-- Email -->
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required><br><br>
-    
+            
             <!-- Password -->
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required><br><br>

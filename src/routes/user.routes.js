@@ -5,6 +5,7 @@ import { registerUser, subscribeToUser } from "../controllers/user.controller.js
 import {
   loginUser,
   logoutUser,
+  homepage,
   getDashboard,
   refreshAccessToken,
   changeCurrentPassword,
@@ -63,6 +64,9 @@ router.route("/register").post(
 
 
 router.route("/login").post(loginUser);
+
+//After login ,go to HOME PAGE
+router.route("/home").get(verifyJWT,homepage);
 
 router.route("/dashBoard").get(verifyJWT,getDashboard);
 

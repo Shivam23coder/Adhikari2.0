@@ -2,43 +2,49 @@
 <html lang="en">
   <head>
     <%- include('./partials/head.ejs') %>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/navstyles.css">
+
     <title>Home Page</title>
   </head>
-  <body>
-    <%- include('./partials/nav.ejs') %>
+  <body >
+    <div class="boxblue">
+      <%- include('./partials/nav.ejs') %>
+    </div>
+    <div class="bgblue">
+      <div class="container mt-3">
+        <form action="/api/v1/user/blog" method="post" enctype="multipart/form-data"> 
+          <div class="mb-3">
+            <label for="coverImage" class="form-label">Cover Image</label>
+            <input
+              type="file"
+              name="coverImage"
+              class="form-control"
+              id="coverImage"
+              aria-describedby="coverImage"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input
+              type="text"
+              name="title"
+              class="form-control"
+              id="title"
+              aria-describedby="title"
+            />
+          </div>
+  
+          <div class="mb-3">
+            <label for="body">Body</label>
+            <textarea name="body" class="form-control" id="body"></textarea>
+          </div>
+          <div class="mb-3">
+            <button class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
 
-    <div class="container mt-3">
-        <!-- what is enctype? -->
-      <form action="/blog" method="post" enctype="multipart/form-data"> 
-        <div class="mb-3">
-          <label for="coverImage" class="form-label">Cover Image</label>
-          <input
-            type="file"
-            name="coverImage"
-            class="form-control"
-            id="coverImage"
-            aria-describedby="coverImage"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="title" class="form-label">Title</label>
-          <input
-            type="text"
-            name="title"
-            class="form-control"
-            id="title"
-            aria-describedby="title"
-          />
-        </div>
-
-        <div class="mb-3">
-          <label for="body">Body</label>
-          <textarea name="body" class="form-control" id="body"></textarea>
-        </div>
-        <div class="mb-3">
-          <button class="btn btn-primary">Submit</button>
-        </div>
-      </form>
     </div>
     <%- include('./partials/scripts.ejs') %>
   </body>

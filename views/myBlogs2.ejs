@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Link to your custom CSS file -->
+    <link rel="stylesheet" href="/css/navstyles.css">    
+    <!-- Include any other necessary stylesheets -->
+    <link rel="stylesheet" href="/css/stylesMix.css"> <!-- Ensure this is linked correctly -->
+    
+    <%- include('./partials/head.ejs') %>
+    
+    <title>My Blogs</title>
+</head>
+<body>
+    <div class="boxblue">
+        <%- include('./partials/nav.ejs') %>
+    </div>
+    
+    <div class="bgblue fullscr">
+        <h1>My Blogs</h1>
+        <% if (blogs.length > 0) { %>
+            <div class="container mt-3">
+                <div class="row row-cols-3">
+                    <% blogs.forEach(blog => { %>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body boxblue">
+                                    <h5 class="card-title"><%= blog.title %></h5>
+                                    <a href="/api/v1/user/blog/<%= blog._id %>" class="btn btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+        <% } else { %>
+            <p>You have not written any blogs yet.</p>
+        <% } %>
+    </div>
+
+<%- include('./partials/scripts.ejs') %> <!-- Include scripts at the end of body -->
+</body>
+</html>

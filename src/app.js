@@ -35,9 +35,9 @@ app.get('/api/v1/',async (req, res) => {
 
 //import routes
 import userRouter from "./routes/user.routes.js"
-import blogRouter from "./routes/user.routes.js"
+import blogRouter from "./routes/blog.routes.js"
 //route declaration
 app.use("/api/v1/user", userRouter)
-app.use("/api/v1/blog", blogRouter)
+app.use("/api/v1/user/blog", blogRouter)
 
 export default app;
