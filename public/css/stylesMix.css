@@ -1,0 +1,39 @@
+/* Ensure the body has no margin or padding */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* Style the navbar container */
+.navbar {
+    background-color: #6a89a7; /* Navbar background color */
+    padding: 10px 20px; /* Add padding around the navbar */
+}
+
+/* Remove default list styles from the <ul> */
+.navbar-nav {
+    list-style-type: none; /* Remove bullets */
+    margin: 0; /* Reset margin */
+    padding: 0; /* Reset padding */
+    display: flex; /* Use flexbox for horizontal layout */
+    gap: 15px; /* Space between items */
+}
+
+/* Style each <li> element */
+.nav-item {
+    display: inline-block; /* Ensure items are inline */
+}
+
+/* Style each link inside the <li> */
+.nav-link {
+    text-decoration: none; /* Remove underline from links */
+    color: white; /* Link text color */
+    padding: 10px 15px; /* Add padding around links */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+/* Change link background color on hover */
+.nav-link:hover {
+    background-color: #575757; /* Darker background on hover */
+}

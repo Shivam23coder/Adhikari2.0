@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Account Details</title>
+</head>
+<body>
+    <h2>Update Your Account Details</h2>
+    <form id="updateForm">
+        <label for="fullName">Full Name</label>
+        <input type="text" name="fullName"  required>
+        
+        <label for="email">Email</label>
+        <input type="email" name="email" required>
+        
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        
+        <button type="submit">Update</button>
+    </form>
+</body>
+
+<script>
+    document.getElementById('updateForm').addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        const response = await fetch('/api/v1/user/updateAccount', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+        console.log(result);
+    });
+</script>
+</html>

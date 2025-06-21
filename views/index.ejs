@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title class=""><%= title %></title>
+</head>
+<body class="bg-blue text-center text-blue-600">
+    <header>
+        <h1 class="font-semibold">Welcome to Our Platform</h1>
+    </header>
+
+    <main class="bg-gray-200 w-1/2 mx-auto rounded p-5 shadow-lg">
+        <section id="options" class="space-y-3">
+            <h2>Choose an Option</h2>
+            <button onclick="window.location.href='user/register'" class="bg-red-600 text-white px-2 rounded hover:bg-red-600 p-1">Register</button>
+            <button onclick="window.location.href='user/login'" class="bg-red-600 text-white px-2 rounded hover:bg-red-600 p-1">Sign In</button>            
+        </section>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 Your Name. All rights reserved.</p>
+    </footer>
+</body>
+</html>

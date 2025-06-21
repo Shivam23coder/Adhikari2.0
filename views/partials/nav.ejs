@@ -1,0 +1,85 @@
+<!-- views/partials/nav.ejs -->
+<nav class="navbar">
+  <div class="navcontainer">
+      <div class="logo">
+          <a href="/">BlogRoom</a>
+      </div>
+      <ul class="navbar-nav2">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <% if (locals.user) { %>
+            <li class="nav-item">
+            <a class="nav-link" href="/api/v1/user/blog/add-blog">Add Blog</a>
+            <!-- CREATE FROM AI -->
+            <a class="nav-link" href="/api/v1/user/blog/my-blogs">My Blogs</a> 
+          </li>
+            <a class="nav-link" href="/api/v1/user/dashboard">Dashboard</a> 
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <%= user.username %>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+              </ul>
+            </li>
+        <% } else {%>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href=".api/v1/user/signup">Create Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/user/signin">Signin</a>
+          </li>
+          <% } %>
+      </ul>
+  </div>
+</nav>
+
+
+
+
+
+
+
+<!-- <nav class="navbar2 navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Blogvlog</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <% if (locals.user) { %>
+              <li class="nav-item">
+              <a class="nav-link" href="/api/v1/user/blog/add-blog">Add Blog</a>
+              <a class="nav-link" href="/api/v1/user/blog/my-blogs">My Blogs</a> 
+              <a class="nav-link" href="/api/v1/user/dashboard">Dashboard</a> 
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Shivam Thapliyal
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+                </ul>
+              </li>
+          <% } else {%>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user/signup">Create Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/user/signin">Signin</a>
+            </li>
+            <% } %>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <% if(locals.error){ %>
+  <div class="alert alert-danger" role="alert"<%= locals.error  %>></div>
+  <% } %> -->

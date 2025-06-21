@@ -1,0 +1,166 @@
+.dhone{
+    top: 0px;
+    left: 0px;
+    height: fit-content;
+    width: 100vw;
+    position:absolute;
+    display: flex;
+    gap: 50px;
+    font-family: 'roboto';
+    background-color: #dcebfacb;
+    /* color: rgb(38, 42, 70); */
+    color: #212234;
+    
+}
+.cont1{
+    position: relative;
+    left: 10px;
+    top: 10px;
+    /* top: 100px; */
+    background: #6a89a7;
+    font-weight: 600;
+    /* font-size:2em; */
+    height:max-content;
+    width:300px;
+    text-align: center;
+    height: 90vh;
+    font-size: 20px;
+
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(141, 172, 202, 0.883);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    h1{
+        font-size: 1.3em;
+    }
+    p{
+        font-size: 0.9em;
+    }
+
+    .box1{
+        /* position: absolute; */
+        /* padding: 20px; */
+        position: relative;
+        top: 20px;
+        left: 0px;
+        width: 300px;
+        height: 50px;
+        background-color: #384959;
+        box-shadow: 0 4px 3px 0 rgba(175, 175, 252, 0.37);
+        backdrop-filter: blur( 1.5px );
+        -webkit-backdrop-filter: blur( 1.5px );
+        border-bottom-right-radius: 10px;
+    }
+    .box2{
+        /* position: absolute; */
+        /* padding: 20px; */
+        top: 20px;
+        position: relative;
+        left: 0px;
+        width: 290px;
+        height: 10px;
+        background-color: #88bdf2;
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 1.5px );
+        -webkit-backdrop-filter: blur( 1.5px );
+        border-bottom-right-radius: 8px;
+    }
+    .user-details{
+        /* gap: 5   px; */
+        display: flex;
+        flex-direction: column;
+        /* color: #000; */
+
+        a{
+            text-decoration: none;
+            /* font-size: medium; */
+        }
+        p{
+            /* color: #000; */
+        }
+    }
+}
+.cont2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: aliceblue; */
+    border: 5px black;
+    border-radius: 5px so;
+    gap: 30px;
+    padding: 50px;
+
+    .search{
+        display: flex;
+        width: 300px;
+        height: 30px;
+        padding: 10px;
+        padding-left: 40px;
+        padding-right: 40px;
+        background: rgba( 255, 255, 255, 0.25 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 1.5px );
+        -webkit-backdrop-filter: blur( 1.5px );
+        border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+    }
+
+    .box{
+        height: 70px;
+        width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(112, 146, 180, 0.883);
+    border-radius: 12px;
+    border: 1px solid rgba(209, 213, 219, 0.3);
+    }
+    .number{
+        /* background-color: white; */
+        display: grid;
+        grid-template-columns: auto auto;
+        gap:50px;
+
+        
+        /* box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); */
+        .c1{
+            padding: 100px;
+            background: rgba(112, 146, 180, 0.883);
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+        }
+        .c2{
+            /* background-color:  #6a89a7; */
+            padding: 100px;
+            background: rgba(112, 146, 180, 0.883);
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+        }
+    }
+
+    .user-channel-profile{
+        display: flex;
+        /* flex-direction: column; */
+        gap: 30px;
+
+        .ucp1{
+            border-radius: 8px;
+            padding: 50px;
+            background: rgba(112, 146, 180, 0.883);
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+        }
+    }
+}

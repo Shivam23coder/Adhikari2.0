@@ -1,0 +1,80 @@
+/* Home Page Styles (home.css) */
+
+.bgblue {
+    background-color: #d2e8ffcb; /* Light background for the page */
+}
+
+.bodycont {
+    padding: 20px; /* Add padding around the content */
+}
+
+.page-title {
+    text-align: center; /* Center align title */
+    margin-bottom: 30px; /* Space below the title */
+    font-size: 2rem; /* Larger font size for emphasis */
+    color: #333; /* Dark color for contrast */
+}
+
+.card {
+    border: none; /* Remove default card border */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.card-img-top {
+    border-top-left-radius: 10px; /* Round top corners */
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+}
+
+.card-title {
+    font-size: 1.25rem; /* Slightly larger title */
+    margin-bottom: 10px; /* Space below title */
+}
+
+.card-text {
+    flex-grow: 1; /* Allow text to take available space */
+}
+
+.btn-primary {
+    background-color: #007bff; /* Primary button color */
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker on hover */
+}
+
+/* Categories Sidebar Styles */
+
+.categories-sidebar {
+    background-color: #f9f9f9; /* Light background for sidebar */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.categories-sidebar h3 {
+    margin-bottom: 15px; /* Space below header */
+}
+
+.categories-list {
+    list-style-type: none; /* Remove bullet points */
+    padding-left: 0; /* Remove default padding */
+}
+
+.categories-list li {
+    margin-bottom: 10px; /* Space between items */
+}
+
+.categories-list a {
+    text-decoration: none; /* Remove underline from links */
+    color: #007bff; /* Link color */
+}
+
+.categories-list a:hover {
+    text-decoration: underline; /* Underline on hover for clarity */
+}

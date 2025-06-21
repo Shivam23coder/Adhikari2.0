@@ -1,0 +1,36 @@
+body{
+    width: 100vw;
+}
+.bgblue {
+    /* display: flex; */
+    text-align: center;
+    background-color: #c6e0facb;
+}
+.boxblue {
+    background-color: #6a89a7;
+}
+.fullscr{
+    height: 100vh;
+}
+/* for myblogs.ejs glassmorph.  */
+.card2{
+    background: rgba(112, 146, 180, 0.883);
+box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+backdrop-filter: blur( 4px );
+-webkit-backdrop-filter: blur( 4px );
+border-radius: 10px;
+border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.bodycont{
+    width: 100vw;
+    height: 85vh;
+}
+
+.navbar2{
+    background-color:  #6a89a7;
+}
+.container {
+    position: relative;
+    top: 10px;
+}

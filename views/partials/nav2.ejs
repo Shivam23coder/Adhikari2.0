@@ -1,0 +1,36 @@
+<!-- views/partials/nav.ejs -->
+<nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/">Home</a>
+      </li>
+      
+      <% if (locals.user) { %>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/v1/user/blog/add-blog">Add Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/v1/user/blog/my-blogs">My Blogs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/api/v1/user/dashboard">Dashboard</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Shivam Thapliyal
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/user/logout">Logout</a></li>
+          </ul>
+        </li>
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link active" href="/user/signup">Create Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/user/signin">Signin</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+  

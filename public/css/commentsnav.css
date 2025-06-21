@@ -1,0 +1,39 @@
+/* Navigation Styles (navstyles.css) */
+
+.navbar {
+    background-color: #6a89a7; /* Dark background */
+    color: white; /* Text color */
+    padding: 10px 20px; /* Add padding around the navbar */
+}
+
+.navcontainer {
+    max-width: 1200px; /* Max width for the navbar */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    color: white; /* Logo text color */
+    text-decoration: none; /* Remove underline from link */
+    font-size: 24px; /* Logo font size */
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px; /* Space between nav items */
+}
+
+.nav-link {
+    text-decoration: none; /* Remove underline from links */
+    color: white; /* Link text color */
+    padding: 10px 15px; /* Padding around links */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.nav-link:hover {
+    background-color: #575757; /* Darker background on hover */
+}
